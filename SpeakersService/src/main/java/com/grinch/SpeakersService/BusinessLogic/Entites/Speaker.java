@@ -1,0 +1,84 @@
+package com.grinch.SpeakersService.BusinessLogic.Entites;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.grinch.SpeakersService.BusinessLogic.Element;
+import com.grinch.SpeakersService.BusinessLogic.Way;
+
+import lombok.Data;
+
+@Entity
+@Table(name = "Speakers")
+@Data
+public class Speaker implements java.io.Serializable{
+
+	private static final long serialVersionUID = -2885796212065899715L;
+	@Column(name = "SpeakerID")
+	@JsonProperty("id")
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "Name")
+	@JsonProperty("name")
+	@NotNull
+	private String name;
+	@Column(name = "Way")
+	@JsonProperty("way")
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private Way way;
+	@JsonProperty("manufacturerReference")
+	@Transient
+	@NotNull
+	private ManufacturerReference manufacturerReference;
+	@Column(name = "MinFreqResponse")
+	@JsonProperty("minFreqResponse")
+	@NotNull
+	@Min(0)
+	private Integer minFreqResponse;
+	@Column(name = "MaxFreqResponse")
+	@JsonProperty("maxFreqResponse")
+	@NotNull
+	@Max(40000)
+	private Integer maxFreqResponse;
+	@Column(name = "Height")
+	@JsonProperty("height")
+	@NotNull
+	@Max(1000)
+	@Min(1)
+	private Float height;
+	@Column(name = "Width")
+	@JsonProperty("width")
+	@NotNull
+	@Max(1000)
+	@Min(1)
+	private Float width;
+	@Column(name = "Depth")
+	@JsonProperty("depth")
+	@NotNull
+	@Max(1000)
+	@Min(1)
+	private Float depth;
+	@Column(name = "Impedence")
+	@JsonProperty("impedence")
+	@NotNull
+	@Max(40)
+	@Min(0)
+	private Integer impedence;
+	@Transient
+	@JsonProperty("elements")
+	private List<Element> elements;
+}
