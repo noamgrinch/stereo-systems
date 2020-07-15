@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grinch.SpeakersService.BusinessLogic.Element;
 import com.grinch.SpeakersService.BusinessLogic.Way;
@@ -40,10 +41,15 @@ public class Speaker implements java.io.Serializable{
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private Way way;
-	@JsonProperty("manufacturerReference")
 	@Transient
 	@NotNull
 	private ManufacturerReference manufacturerReference;
+	@Column(name = "ManufacturerName")
+	@JsonIgnore
+	private String manufacturerName;
+	@Column(name = "ManufacturerID")
+	@JsonIgnore
+	private Long manufacturerId;
 	@Column(name = "MinFreqResponse")
 	@JsonProperty("minFreqResponse")
 	@NotNull
