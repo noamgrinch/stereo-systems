@@ -11,9 +11,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.grinch.SpeakersService.BusinessLogic.Utils.ValidManufacturerReference;
+
 import lombok.Data;
 @Entity
 @Table(name = "ManufacturersReferences")
+@ValidManufacturerReference
 @Data
 public class ManufacturerReference implements java.io.Serializable{
 	/**
@@ -21,7 +24,7 @@ public class ManufacturerReference implements java.io.Serializable{
 	 */
 	private static final long serialVersionUID = 192482548894420474L;
 	
-	@Column(name = "ID")
+	@Column(name = "ReferenceID")
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@JsonIgnore
@@ -37,7 +40,11 @@ public class ManufacturerReference implements java.io.Serializable{
 	private String name;
 	
 	public ManufacturerReference(Long id, String name) {
-		this.id=id;
+		this.manufacturerId=id;
 		this.name=name;
+	}
+	
+	public ManufacturerReference() {
+		
 	}
 }

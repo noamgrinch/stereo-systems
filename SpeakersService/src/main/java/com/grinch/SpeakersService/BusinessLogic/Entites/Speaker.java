@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -18,12 +19,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grinch.SpeakersService.BusinessLogic.Element;
 import com.grinch.SpeakersService.BusinessLogic.Way;
+import com.grinch.SpeakersService.BusinessLogic.Utils.ValidSpeaker;
 
 import lombok.Data;
 
 @Entity
 @Table(name = "Speakers")
 @Data
+@ValidSpeaker
 public class Speaker implements java.io.Serializable{
 
 	private static final long serialVersionUID = -2885796212065899715L;

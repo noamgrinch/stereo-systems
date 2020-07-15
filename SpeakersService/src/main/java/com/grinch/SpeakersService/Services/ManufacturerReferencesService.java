@@ -17,6 +17,6 @@ public class ManufacturerReferencesService {
 	}
 	
 	public boolean exists(ManufacturerReference manufacturerReference) {
-		return !(repository.findByManufacturerId(manufacturerReference.getManufacturerId()).isEmpty());
+		return !repository.findByManufacturerId(manufacturerReference.getManufacturerId()).isEmpty();
 	}
 }

@@ -30,7 +30,7 @@ public class SpeakersService {
 	public Speaker postSpeaker(Speaker speaker) throws Exception {
 		if(!manuService.exists(speaker.getManufacturerReference())) {
 			// Should create a custom exception and handler.
-			throw new Exception("Manufacturer with id " + speaker.getManufacturerReference().getId() + " does not exists.");
+			throw new Exception("Manufacturer with id " + speaker.getManufacturerReference().getManufacturerId() + " does not exists.");
 		}
 		if(!repository.findByNameAndManufacturerId(speaker.getName(), speaker.getManufacturerReference().getId()).isEmpty()) {
 			// Should create a custom exception and handler.
