@@ -3,11 +3,13 @@ package com.grinch.ManufacturersService.Services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.grinch.ManufacturersService.BusinessLogic.Entites.Manufacturer;
 import com.grinch.ManufacturersService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.ManufacturersService.Exceptions.ResourceNotFoundException;
+import com.grinch.ManufacturersService.Publishers.ManufacturerPublisher;
 import com.grinch.ManufacturersService.Repositories.ManufacturersRepository;
 
 
@@ -15,7 +17,10 @@ import com.grinch.ManufacturersService.Repositories.ManufacturersRepository;
 public class ManufacturersService {
 	@Autowired
 	private ManufacturersRepository repository;
-
+	@Autowired
+	private ManufacturerPublisher publisher;
+	@Value("${AcitveMQ.Topics.manufacturersTopic}")
+	private String manufacturersTopic;
 	
 	public Manufacturer getManufacturer(Long id) throws Exception {
 		Optional<Manufacturer> Manufacturer = repository.findById(id);
@@ -31,7 +36,9 @@ public class ManufacturersService {
 			// Should create a custom exception and handler.
 			throw new ResourceAlreadyExistsException("Manufacturer with name " + manufacturer.getName() + " is already exists.");
 		}
-		return repository.save(manufacturer);
+		Manufacturer result = repository.save(manufacturer);
+		publisher.publishManufacturer(manufacturersTopic, manufacturer);
+		return result;
 	}
 	
 	public Manufacturer putManufacturer(Manufacturer manufacturer) throws Exception {

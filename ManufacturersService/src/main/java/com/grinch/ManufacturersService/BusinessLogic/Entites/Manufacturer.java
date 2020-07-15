@@ -1,8 +1,11 @@
 package com.grinch.ManufacturersService.BusinessLogic.Entites;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,10 +37,12 @@ public class Manufacturer implements java.io.Serializable{
 	@NotNull
 	@Length(min=1,max=40)
 	private String name;
-	@Column(name = "Origin")
 	@JsonProperty("origin")
-	@ElementCollection
-	@CollectionTable(name = "ManufacturersOrigins")
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride( name = "country", column = @Column(name = "OriginCountry")),
+		@AttributeOverride( name = "city", column = @Column(name = "OriginCity"))
+	})
 	private Origin origin; // Validate via a different microservice.
 
 }

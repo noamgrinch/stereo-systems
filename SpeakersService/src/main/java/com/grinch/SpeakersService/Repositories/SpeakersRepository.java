@@ -9,6 +9,5 @@ import com.grinch.SpeakersService.BusinessLogic.Entites.Speaker;
 @Repository
 public interface SpeakersRepository extends JpaRepository<Speaker,Long>{
 	Optional<Speaker> findByName(String name);
-	Optional<Speaker> findByManufacturerId(Long id);
-	Optional<Speaker> findByNameAndManufacturerId(String name,Long id);
+	Optional<Speaker> findByNameAndManufacturerReference_Id(String name,Long id);
 }

@@ -2,7 +2,10 @@ package com.grinch.SpeakersService.BusinessLogic.Entites;
 
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grinch.SpeakersService.BusinessLogic.Element;
+import com.grinch.SpeakersService.BusinessLogic.ManufacturerReference;
 import com.grinch.SpeakersService.BusinessLogic.Way;
 import com.grinch.SpeakersService.BusinessLogic.Utils.ValidSpeaker;
 
@@ -44,15 +48,13 @@ public class Speaker implements java.io.Serializable{
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private Way way;
-	@Transient
 	@NotNull
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride( name = "id", column = @Column(name = "ManufacturerId")),
+		@AttributeOverride( name = "name", column = @Column(name = "ManufacturerName"))
+	})
 	private ManufacturerReference manufacturerReference;
-	@Column(name = "ManufacturerName")
-	@JsonIgnore
-	private String manufacturerName;
-	@Column(name = "ManufacturerID")
-	@JsonIgnore
-	private Long manufacturerId;
 	@Column(name = "MinFreqResponse")
 	@JsonProperty("minFreqResponse")
 	@NotNull

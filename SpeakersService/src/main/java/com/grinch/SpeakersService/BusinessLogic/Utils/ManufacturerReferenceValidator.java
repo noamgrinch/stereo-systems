@@ -3,7 +3,7 @@ package com.grinch.SpeakersService.BusinessLogic.Utils;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.grinch.SpeakersService.BusinessLogic.Entites.ManufacturerReference;
+import com.grinch.SpeakersService.BusinessLogic.ManufacturerReference;
 
 public class ManufacturerReferenceValidator implements ConstraintValidator<ValidManufacturerReference, ManufacturerReference> {
 	
