@@ -24,7 +24,7 @@ public class SpeakersService {
 		}
 		Speaker result = speaker.get();
 		result.setManufacturerReference(new ManufacturerReference(result.getManufacturerReference().getId(),result.getManufacturerReference().getName()));
-		return speaker.get();
+		return result;
 	}
 	
 	public Speaker postSpeaker(Speaker speaker) throws Exception {
