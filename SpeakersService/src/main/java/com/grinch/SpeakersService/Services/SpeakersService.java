@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.grinch.SpeakersService.BusinessLogic.ManufacturerReference;
 import com.grinch.SpeakersService.BusinessLogic.Entites.Speaker;
 import com.grinch.SpeakersService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.SpeakersService.Exceptions.ResourceNotFoundException;
@@ -24,7 +22,6 @@ public class SpeakersService {
 			throw new ResourceNotFoundException("Speaker with id " + id + " was not found."); // Should create a custom exception handler.
 		}
 		Speaker result = speaker.get();
-		result.setManufacturerReference(new ManufacturerReference(result.getManufacturerReference().getId(),result.getManufacturerReference().getName()));
 		return result;
 	}
 	

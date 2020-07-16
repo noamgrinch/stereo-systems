@@ -27,13 +27,14 @@ public class JmsConfig {
 	@Value("${activemq.topics.manufacturers}")
     public String MANUFACTURERS_TOPIC;
 
-	  @Value("${a}")
+
+	 @Value("${activemq.topics.url}")
 	  String brokerUrl;
 	  
-	  @Value("${b}")
+	  @Value("${activemq.topics.user}")
 	  String userName;
 	  
-	  @Value("${c}")
+	  @Value("${activemq.topics.password}")
 	  String password;
 	 
 	  /*
@@ -45,6 +46,7 @@ public class JmsConfig {
 	        connectionFactory.setBrokerURL(brokerUrl);
 	        connectionFactory.setUserName(userName);
 	        connectionFactory.setPassword(password);
+	        connectionFactory.setTrustAllPackages(true);
 	        return connectionFactory;
 	    }
 	    
@@ -65,4 +67,5 @@ public class JmsConfig {
 	      configurer.configure(factory, connectionFactory);
 	      return factory;
 	  }
+
 }

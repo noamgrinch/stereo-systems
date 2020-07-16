@@ -14,14 +14,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grinch.SpeakersService.BusinessLogic.Element;
-import com.grinch.SpeakersService.BusinessLogic.ManufacturerReference;
+import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
 import com.grinch.SpeakersService.BusinessLogic.Way;
 import com.grinch.SpeakersService.BusinessLogic.Utils.ValidSpeaker;
 
@@ -54,7 +52,7 @@ public class Speaker implements java.io.Serializable{
 		@AttributeOverride( name = "id", column = @Column(name = "ManufacturerId")),
 		@AttributeOverride( name = "name", column = @Column(name = "ManufacturerName"))
 	})
-	private ManufacturerReference manufacturerReference;
+	private Manufacturer manufacturerReference;
 	@Column(name = "MinFreqResponse")
 	@JsonProperty("minFreqResponse")
 	@NotNull

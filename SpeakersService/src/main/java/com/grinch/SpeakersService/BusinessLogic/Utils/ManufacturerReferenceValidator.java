@@ -3,26 +3,26 @@ package com.grinch.SpeakersService.BusinessLogic.Utils;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.grinch.SpeakersService.BusinessLogic.ManufacturerReference;
+import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
 
-public class ManufacturerReferenceValidator implements ConstraintValidator<ValidManufacturerReference, ManufacturerReference> {
+public class ManufacturerReferenceValidator implements ConstraintValidator<ValidManufacturerReference, Manufacturer> {
 	
     public void initialize(ValidSpeaker constraintAnnotation) {
 
     }
 
 
-    public boolean isValid(ManufacturerReference object, ConstraintValidatorContext context) {
-        if (!(object instanceof ManufacturerReference)) {
-            throw new IllegalArgumentException("@ValidManufacturerReference only applies to ManufacturerReference instance.");
+    public boolean isValid(Manufacturer object, ConstraintValidatorContext context) {
+        if (!(object instanceof Manufacturer)) {
+            throw new IllegalArgumentException("@ValidManufacturer only applies to Manufacturer instance.");
         }
-        ManufacturerReference manufacturerReference = (ManufacturerReference) object;
+        Manufacturer Manufacturer = (Manufacturer) object;
 
-        if (manufacturerReference.getName()==null || manufacturerReference.getName().isEmpty()) {
+        if (Manufacturer.getName()==null || Manufacturer.getName().isEmpty()) {
             this.setContextMessage(context, "Manufacturer name cannot be null or empty.");
             return false;
         } 
-        if (manufacturerReference.getName().length()>50) {
+        if (Manufacturer.getName().length()>50) {
             this.setContextMessage(context, "Manufacturer name cannot be bigger than 50 characters.");
             return false;
         } 
