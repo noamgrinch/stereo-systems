@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import lombok.Data;
 @Data
-public class ResourceAlreadyExistsException extends Exception{
+public class ResourceAlreadyExistsException extends StereoFiException{
 
 	/**
 	 * 

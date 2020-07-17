@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import lombok.Data;
 @Data
-public class ResourceNotFoundException extends Exception{
+public class ResourceNotFoundException extends StereoFiException{
 
 	/**
 	 * 
