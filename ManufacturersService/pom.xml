@@ -133,8 +133,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<source>13</source>
-                	<target>13</target>
+					<source>1.8</source>
+                	<target>1.8</target>
         			<archive>
            				<manifest>
                 			<addClasspath>true</addClasspath>
