@@ -1,0 +1,1 @@
+mvn -f manufacturersservice/pom.xml clean package
