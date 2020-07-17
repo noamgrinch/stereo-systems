@@ -132,17 +132,17 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+        			<archive>
+           				<manifest>
+                			<addClasspath>true</addClasspath>
+                    		<classpathPrefix>lib/</classpathPrefix>
+                       		<mainClass>${main.class}</mainClass>
+                		</manifest>
+            		</archive>
+       			</configuration>
 			</plugin>
 		</plugins>
-        <configuration>
-        	<archive>
-           		<manifest>
-                	<addClasspath>true</addClasspath>
-                    <classpathPrefix>lib/</classpathPrefix>
-                       <mainClass>${main.class}</mainClass>
-                </manifest>
-            </archive>
-       </configuration>
 	</build>
 
 </project>
