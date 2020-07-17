@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+<Properties>
+    <Property name="springAppName">${bundle:application:spring.application.name}</Property>
+    <Property name="sleuthInfo">${springAppName},%X{X-B3-TraceId}</Property>
+</Properties>
+
+<Appenders>
+
+    <Console name="Console" target="SYSTEM_OUT">
+        <PatternLayout
+            pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[${sleuthInfo}][%style{%t}{bright,blue}] %style{%C{1.}}{bright,red}: %msg%n%throwable"
+            disableAnsi="false" />
+    </Console>
+    <JMS name="jmsQueue" destinationBindingName="dynamicQueues/LogQueue"
+        factoryName="org.apache.activemq.jndi.ActiveMQInitialContextFactory"
+        factoryBindingName="ConnectionFactory" providerURL="tcp://172.18.73.97:61616"> 
+      <JsonLayout properties="true">
+			<!-- <KeyValuePair key="traceId" value="${sleuthInfo}"/> -->
+      </JsonLayout>
+    </JMS>
+    
+  </Appenders>
+  <Loggers>
+    <Logger name="com.grinch"  level="info">
+      <AppenderRef ref="jmsQueue"/>
+    </Logger>
+     <Logger name="org.springframework" level="info"  additivity="false">
+          <AppenderRef ref="Console" />
+     </Logger>
+     <Logger name="org.hibernate" level="info"  additivity="false">
+          <AppenderRef ref="Console" />
+     </Logger>
+     <Logger name="ManufacturersService.Test" level="info"  additivity="false">
+          <AppenderRef ref="Console" />
+     </Logger>
+  </Loggers>
+</Configuration>

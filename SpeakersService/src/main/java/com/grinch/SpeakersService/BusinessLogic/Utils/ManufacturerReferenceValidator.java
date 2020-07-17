@@ -17,21 +17,22 @@ public class ManufacturerReferenceValidator implements ConstraintValidator<Valid
             throw new IllegalArgumentException("@ValidManufacturer only applies to Manufacturer instance.");
         }
         Manufacturer Manufacturer = (Manufacturer) object;
-
+        if (Manufacturer.getId()==null || Manufacturer.getId()<=0) {
+            this.validationFailure(context, "Invalid Manufacturer id.");
+        } 
         if (Manufacturer.getName()==null || Manufacturer.getName().isEmpty()) {
-            this.setContextMessage(context, "Manufacturer name cannot be null or empty.");
-            return false;
+            this.validationFailure(context, "Manufacturer name cannot be null or empty.");
         } 
         if (Manufacturer.getName().length()>50) {
-            this.setContextMessage(context, "Manufacturer name cannot be bigger than 50 characters.");
-            return false;
+            this.validationFailure(context, "Manufacturer name cannot be bigger than 50 characters.");
         } 
         return true;
     }
     
-    private void setContextMessage(ConstraintValidatorContext context,String message) {
+    private boolean validationFailure(ConstraintValidatorContext context,String message) {
     	context.disableDefaultConstraintViolation();
     	context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+    	return false;
     }
 
 }

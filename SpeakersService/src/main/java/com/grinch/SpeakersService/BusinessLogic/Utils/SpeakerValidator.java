@@ -17,17 +17,19 @@ public class SpeakerValidator implements ConstraintValidator<ValidSpeaker, Speak
             throw new IllegalArgumentException("@ValidSpeaker only applies to Speaker instance.");
         }
         Speaker speaker = (Speaker) object;
-
+        if (speaker.getMinFreqResponse()==null || speaker.getMaxFreqResponse()==null) {
+            this.validationFailure(context, "Invalid frequencies.");
+        } 
         if (speaker.getMinFreqResponse() >= speaker.getMaxFreqResponse()) {
-            this.setContextMessage(context, "Minimum frequency cannot be lower than maximum frequency.");
-            return false;
+            this.validationFailure(context, "Minimum frequency cannot be lower than maximum frequency.");
         } 
         return true;
     }
     
-    private void setContextMessage(ConstraintValidatorContext context,String message) {
+    private boolean validationFailure(ConstraintValidatorContext context,String message) {
     	context.disableDefaultConstraintViolation();
     	context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+    	return false;
     }
 
 }

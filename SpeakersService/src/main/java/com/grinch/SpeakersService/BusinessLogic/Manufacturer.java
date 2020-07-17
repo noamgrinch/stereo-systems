@@ -20,11 +20,9 @@ public class Manufacturer implements java.io.Serializable{
 	private static final long serialVersionUID = 192482548894420474L;
 	
 	@JsonProperty("id")
-	@NotNull
 	@Min(1)
 	private Long id;
 	@JsonProperty("name")
-	@NotNull
 	private String name;
 	
 	public Manufacturer(Long id, String name) {
