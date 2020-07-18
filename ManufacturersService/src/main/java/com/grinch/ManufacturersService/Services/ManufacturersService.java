@@ -33,7 +33,6 @@ public class ManufacturersService {
 	public Manufacturer postManufacturer(Manufacturer manufacturer) throws Exception {
 		//Test Location via external microservice!!
 		if(!repository.findByName(manufacturer.getName()).isEmpty()) {
-			// Should create a custom exception and handler.
 			throw new ResourceAlreadyExistsException("Manufacturer with name " + manufacturer.getName() + " is already exists.");
 		}
 		Manufacturer result = repository.save(manufacturer);
@@ -43,11 +42,9 @@ public class ManufacturersService {
 	
 	public Manufacturer putManufacturer(Manufacturer manufacturer) throws Exception {
 		if(repository.findById(manufacturer.getId()).isEmpty()) {
-			// Should create a custom exception and handler.
 			throw new ResourceNotFoundException("Manufacturer with id " + manufacturer.getId() + " was not found."); // Should create a custom exception and handler.
 		}
 		if(!repository.findByName(manufacturer.getName()).isEmpty()) {
-			// Should create a custom exception and handler.
 			throw new ResourceAlreadyExistsException("Manufacturer with name " + manufacturer.getName() + " is already exists.");
 		}
 		return repository.save(manufacturer);

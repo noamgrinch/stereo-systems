@@ -3,6 +3,7 @@
 <Properties>
     <Property name="springAppName">${bundle:application:spring.application.name}</Property>
     <Property name="sleuthInfo">${springAppName},%X{X-B3-TraceId}</Property>
+    <Property name="SYSTEM_IP_V4">${bundle:application:SYSTEM_IP_V4}</Property>
 </Properties>
 
 <Appenders>
@@ -14,12 +15,11 @@
     </Console>
     <JMS name="jmsQueue" destinationBindingName="dynamicQueues/LogQueue"
         factoryName="org.apache.activemq.jndi.ActiveMQInitialContextFactory"
-        factoryBindingName="ConnectionFactory" providerURL="tcp://172.18.73.97:61616"> 
+        factoryBindingName="ConnectionFactory" providerURL="tcp://${SYSTEM_IP_V4}:61616"> 
       <JsonLayout properties="true">
-			<!-- <KeyValuePair key="traceId" value="${sleuthInfo}"/> -->
+			<KeyValuePair key="application" value="${springAppName}"/>
       </JsonLayout>
-    </JMS>
-    
+    </JMS>  
   </Appenders>
   <Loggers>
     <Logger name="com.grinch"  level="info">
@@ -31,7 +31,7 @@
      <Logger name="org.hibernate" level="info"  additivity="false">
           <AppenderRef ref="Console" />
      </Logger>
-     <Logger name="ManufacturersService.Test" level="info"  additivity="false">
+     <Logger name="${springAppName}.Test" level="info"  additivity="false">
           <AppenderRef ref="Console" />
      </Logger>
   </Loggers>

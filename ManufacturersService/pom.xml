@@ -15,38 +15,34 @@
 	<description>Manufacturers service.</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>13</java.version>
 		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
-		<dependency>
-         	<groupId>com.fasterxml.jackson.core</groupId>
-         	<artifactId>jackson-databind</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<exclusions>
-    			<exclusion>
-      				<groupId>org.springframework.boot</groupId>
-      				<artifactId>spring-boot-starter-logging</artifactId>
-    			</exclusion>
-  			</exclusions>	
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>	
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<exclusions>
-    			<exclusion>
-      				<groupId>org.springframework.boot</groupId>
-      				<artifactId>spring-boot-starter-logging</artifactId>
-    			</exclusion>
-  			</exclusions>					
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>					
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -86,63 +82,63 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-        	<groupId>org.springframework.cloud</groupId>
-        	<artifactId>spring-cloud-starter-sleuth</artifactId>
-    	</dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+		</dependency>
 		<dependency>
-   			<groupId>org.apache.logging.log4j</groupId>
-    		<artifactId>log4j-api</artifactId>
-  		</dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
 		<dependency>
-    		<groupId>org.apache.logging.log4j</groupId>
-    		<artifactId>log4j-core</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-activemq</artifactId>
 		</dependency>
 		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-log4j2</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-broker</artifactId>
 		</dependency>
 		<dependency>
-    		<groupId>com.fasterxml.jackson.core</groupId>
-    		<artifactId>jackson-core</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
 		</dependency>							
 	</dependencies>
 
 	<dependencyManagement>
-    	<dependencies>
-        	<dependency>
-            	<groupId>org.springframework.cloud</groupId>
-            	<artifactId>spring-cloud-dependencies</artifactId>
-            	<version>${spring-cloud.version}</version>
-            	<type>pom</type>
-            	<scope>import</scope>
-        	</dependency>
-    	</dependencies>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-                	<target>1.8</target>
-        			<archive>
-           				<manifest>
-                			<addClasspath>true</addClasspath>
-                    		<classpathPrefix>lib/</classpathPrefix>
-                       		<mainClass>${main.class}</mainClass>
-                		</manifest>
-            		</archive>
-       			</configuration>
+					<source>13</source>
+					<target>13</target>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>${main.class}</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
