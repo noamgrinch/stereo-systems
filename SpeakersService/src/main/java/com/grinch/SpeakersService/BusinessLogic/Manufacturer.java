@@ -2,7 +2,6 @@ package com.grinch.SpeakersService.BusinessLogic;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
