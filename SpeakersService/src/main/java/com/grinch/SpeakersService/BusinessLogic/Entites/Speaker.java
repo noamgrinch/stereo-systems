@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grinch.SpeakersService.BusinessLogic.Element;
 import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
+import com.grinch.SpeakersService.BusinessLogic.SpeakerType;
 import com.grinch.SpeakersService.BusinessLogic.Way;
 import com.grinch.SpeakersService.BusinessLogic.Utils.ValidSpeaker;
 
@@ -46,6 +47,11 @@ public class Speaker implements java.io.Serializable{
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private Way way;
+	@Column(name = "SpeakerType")
+	@JsonProperty("speakerType")
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private SpeakerType speakerType;
 	@NotNull
 	@Embedded
 	@AttributeOverrides({
