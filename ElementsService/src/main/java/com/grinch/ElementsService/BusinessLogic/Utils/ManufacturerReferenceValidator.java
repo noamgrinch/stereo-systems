@@ -1,9 +1,10 @@
-package com.grinch.SpeakersService.BusinessLogic.Utils;
+package com.grinch.ElementsService.BusinessLogic.Utils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
+import com.grinch.ElementsService.BusinessLogic.Manufacturer;
+
 
 public class ManufacturerReferenceValidator implements ConstraintValidator<ValidManufacturerReference, Manufacturer> {
 	
