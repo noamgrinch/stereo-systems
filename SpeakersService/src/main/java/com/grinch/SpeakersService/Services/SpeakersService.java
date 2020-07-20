@@ -39,7 +39,7 @@ public class SpeakersService {
 			// Should create a custom exception handler.
 			throw new ResourceNotFoundException("Speaker with id " + speaker.getId() + " was not found."); // Should create a custom exception and handler.
 		}
-		Optional<Speaker> test = repository.findByNameAndManufacturerReference_Id(speaker.getName(), speaker.getId());
+		Optional<Speaker> test = repository.findByNameAndManufacturerReference_Id(speaker.getName(), speaker.getManufacturerReference().getId());
 		if((!test.isEmpty())&&test.get().getId()!=speaker.getId()) {
 			// Should create a custom handler.
 			throw new ResourceAlreadyExistsException("Speaker with name " + speaker.getName() + " is already exists for this manufacturer.");
