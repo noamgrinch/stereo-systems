@@ -12,13 +12,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.grinch.SpeakersService.BusinessLogic.Element;
 import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
 import com.grinch.SpeakersService.BusinessLogic.SpeakerType;
 import com.grinch.SpeakersService.BusinessLogic.Way;
@@ -93,7 +93,7 @@ public class Speaker implements java.io.Serializable{
 	@Max(40)
 	@Min(0)
 	private Integer impedence;
-	@Transient
 	@JsonProperty("elements")
+	@OneToMany(mappedBy="speaker")
 	private List<Element> elements;
 }
