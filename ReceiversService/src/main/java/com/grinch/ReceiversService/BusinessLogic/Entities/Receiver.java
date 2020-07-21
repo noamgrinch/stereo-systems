@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -41,6 +43,16 @@ public class Receiver implements java.io.Serializable{
 	@Column(name = "Type")
 	@Enumerated(EnumType.STRING)
 	private RecieverType type;
+	@JsonProperty("watts")
+	@Column(name = "Watts")
+	@Min(1)
+	@Max(10000)
+	private Integer watts;
+	@JsonProperty("totalHarmonicDistortion")
+	@Column(name = "TotalHarmonicDistortion")
+	@Min(0)
+	@Max(10)
+	private Float totalHarmonicDistortion;
 	@NotNull
 	@Embedded
 	@AttributeOverrides({

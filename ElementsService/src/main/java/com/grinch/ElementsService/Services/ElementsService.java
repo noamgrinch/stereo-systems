@@ -34,11 +34,11 @@ public class ElementsService {
 	
 	public Element putElement(Element element) throws ResourceAlreadyExistsException, ResourceNotFoundException {
 		if(repository.findById(element.getId()).isEmpty()) {
-			throw new ResourceNotFoundException("element with id " + element.getId() + " was not found."); // Should create a custom exception and handler.
+			throw new ResourceNotFoundException("Element with id " + element.getId() + " was not found."); // Should create a custom exception and handler.
 		}
 		Optional<Element> test = repository.findByNameAndManufacturerReference_Id(element.getName(), element.getManufacturerReference().getId());
 		if((!test.isEmpty())&&test.get().getId()!=element.getId()) {
-			throw new ResourceAlreadyExistsException("element with name " + element.getName() + " is already exists for this manufacturer.");
+			throw new ResourceAlreadyExistsException("Element with name " + element.getName() + " is already exists for this manufacturer.");
 		}
 		return repository.save(element);
 	}

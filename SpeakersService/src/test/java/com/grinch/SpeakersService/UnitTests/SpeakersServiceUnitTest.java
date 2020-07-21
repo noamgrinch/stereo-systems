@@ -39,15 +39,6 @@ public class SpeakersServiceUnitTest {
         Assert.assertEquals(speaker.getName(), result.getName());
     }
     
-    @Test
-    public void InvalidSpeakerDuplicateNameTest() {
-    	Exception exception = assertThrows(ResourceNotFoundException.class,()->{
-    		speakerService.getSpeaker((long) 1);
-    	});
-    	assertTrue(exception instanceof ResourceNotFoundException);
-    	String msg = "Speaker with id " + 1 + " was not found.";
-    	assertTrue(exception.getMessage().equals(msg));
-    }
     
     @Test
     public void DuplicateNameUpdateSpeakerTest() throws Exception {
