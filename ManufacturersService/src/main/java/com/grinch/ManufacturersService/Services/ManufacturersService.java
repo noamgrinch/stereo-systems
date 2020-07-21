@@ -41,10 +41,12 @@ public class ManufacturersService {
 	}
 	
 	public Manufacturer putManufacturer(Manufacturer manufacturer) throws Exception {
+		
 		if(repository.findById(manufacturer.getId()).isEmpty()) {
 			throw new ResourceNotFoundException("Manufacturer with id " + manufacturer.getId() + " was not found."); // Should create a custom exception and handler.
 		}
-		if(!repository.findByName(manufacturer.getName()).isEmpty()) {
+		Optional<Manufacturer> test = repository.findByName(manufacturer.getName());
+		if((!test.isEmpty())&&test.get().getId()!=manufacturer.getId()) {
 			throw new ResourceAlreadyExistsException("Manufacturer with name " + manufacturer.getName() + " is already exists.");
 		}
 		return repository.save(manufacturer);
