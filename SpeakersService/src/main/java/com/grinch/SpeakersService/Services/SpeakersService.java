@@ -28,7 +28,6 @@ public class SpeakersService {
 	public Speaker postSpeaker(Speaker speaker) throws Exception {
 		// Check via ManufacturersService that manufacturer exists!!
 		if(!repository.findByNameAndManufacturerReference_Id(speaker.getName(), speaker.getManufacturerReference().getId()).isEmpty()) {
-			// Should create a custom handler.
 			throw new ResourceAlreadyExistsException("Speaker with name " + speaker.getName() + " is already exists for this manufacturer.");
 		}
 		return repository.save(speaker);
@@ -36,12 +35,10 @@ public class SpeakersService {
 	
 	public Speaker putSpeaker(Speaker speaker) throws Exception {
 		if(repository.findById(speaker.getId()).isEmpty()) {
-			// Should create a custom exception handler.
 			throw new ResourceNotFoundException("Speaker with id " + speaker.getId() + " was not found."); // Should create a custom exception and handler.
 		}
 		Optional<Speaker> test = repository.findByNameAndManufacturerReference_Id(speaker.getName(), speaker.getManufacturerReference().getId());
 		if((!test.isEmpty())&&test.get().getId()!=speaker.getId()) {
-			// Should create a custom handler.
 			throw new ResourceAlreadyExistsException("Speaker with name " + speaker.getName() + " is already exists for this manufacturer.");
 		}
 		return repository.save(speaker);

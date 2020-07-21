@@ -25,7 +25,7 @@ public class ManufacturersService {
 	public Manufacturer getManufacturer(Long id) throws Exception {
 		Optional<Manufacturer> Manufacturer = repository.findById(id);
 		if(Manufacturer.isEmpty()) {
-			throw new ResourceNotFoundException("Manufacturer with id " + id + " was not found."); // Should create a custom exception and handler.
+			throw new ResourceNotFoundException("Manufacturer with id " + id + " was not found.");
 		}
 		return Manufacturer.get();
 	}
@@ -43,7 +43,7 @@ public class ManufacturersService {
 	public Manufacturer putManufacturer(Manufacturer manufacturer) throws Exception {
 		
 		if(repository.findById(manufacturer.getId()).isEmpty()) {
-			throw new ResourceNotFoundException("Manufacturer with id " + manufacturer.getId() + " was not found."); // Should create a custom exception and handler.
+			throw new ResourceNotFoundException("Manufacturer with id " + manufacturer.getId() + " was not found.");
 		}
 		Optional<Manufacturer> test = repository.findByName(manufacturer.getName());
 		if((!test.isEmpty())&&test.get().getId()!=manufacturer.getId()) {
