@@ -3,6 +3,7 @@ package com.grinch.ElementsService.Services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.grinch.ElementsService.BusinessLogic.Entites.Element;
 import com.grinch.ElementsService.Exceptions.ResourceAlreadyExistsException;
@@ -10,7 +11,7 @@ import com.grinch.ElementsService.Exceptions.ResourceNotFoundException;
 import com.grinch.ElementsService.Repositories.ElementsRepository;
 
 
-
+@Service
 public class ElementsService {
 	
 	@Autowired

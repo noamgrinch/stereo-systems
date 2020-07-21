@@ -14,11 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.grinch.SpeakersService.BusinessLogic.Dimensions;
 import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
 import com.grinch.SpeakersService.BusinessLogic.SpeakerType;
 import com.grinch.SpeakersService.BusinessLogic.Way;
@@ -69,24 +69,14 @@ public class Speaker implements java.io.Serializable{
 	@NotNull
 	@Max(40000)
 	private Integer maxFreqResponse;
-	@Column(name = "Height")
-	@JsonProperty("height")
 	@NotNull
-	@Max(1000)
-	@Min(1)
-	private Float height;
-	@Column(name = "Width")
-	@JsonProperty("width")
-	@NotNull
-	@Max(1000)
-	@Min(1)
-	private Float width;
-	@Column(name = "Depth")
-	@JsonProperty("depth")
-	@NotNull
-	@Max(1000)
-	@Min(1)
-	private Float depth;
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride( name = "height", column = @Column(name = "Height")),
+		@AttributeOverride( name = "width", column = @Column(name = "Width")),
+		@AttributeOverride( name = "depth", column = @Column(name = "Depth"))
+	})
+	private Dimensions dimensions;
 	@Column(name = "Impedence")
 	@JsonProperty("impedence")
 	@NotNull
