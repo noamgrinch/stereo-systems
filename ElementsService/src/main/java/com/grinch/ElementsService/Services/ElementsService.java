@@ -43,8 +43,10 @@ public class ElementsService {
 		return repository.save(element);
 	}
 	
-	public void deleteElement(Long id) {
-		repository.deleteById(id);
+	public void deleteElement(Long id) throws ResourceNotFoundException {
+		if(!repository.existsById(id)) {
+			throw new ResourceNotFoundException("Element with id " + id + " was not found.");
+		}
 	}
 
 }

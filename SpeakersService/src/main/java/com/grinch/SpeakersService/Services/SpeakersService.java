@@ -44,7 +44,10 @@ public class SpeakersService {
 		return repository.save(speaker);
 	}
 	
-	public void deleteSpeaker(Long id) {
+	public void deleteSpeaker(Long id) throws ResourceNotFoundException {
+		if(!repository.existsById(id)) {
+			throw new ResourceNotFoundException("Speaker with id " + id + " was not found.");
+		}
 		repository.deleteById(id);
 	}
 

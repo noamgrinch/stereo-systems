@@ -62,4 +62,6 @@ public class ManufacturersServiceUnitTest {
         assertTrue(e instanceof ResourceAlreadyExistsException);
         assertTrue(msg.equals(e.getMessage()));
     }
+    
+    
 }
