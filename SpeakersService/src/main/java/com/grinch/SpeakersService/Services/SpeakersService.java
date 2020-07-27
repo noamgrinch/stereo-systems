@@ -1,9 +1,21 @@
 package com.grinch.SpeakersService.Services;
 
+import java.util.List;
 import java.util.Optional;
 
+import javax.jms.Session;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+
+import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
 import com.grinch.SpeakersService.BusinessLogic.Entites.Speaker;
 import com.grinch.SpeakersService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.SpeakersService.Exceptions.ResourceNotFoundException;
@@ -14,7 +26,7 @@ public class SpeakersService {
 	
 	@Autowired
 	private SpeakersRepository repository;
-
+	private static Logger logger = LogManager.getLogger(SpeakersService.class);
 	
 	public Speaker getSpeaker(Long id) throws Exception {
 		Optional<Speaker> speaker = repository.findById(id);
@@ -49,6 +61,15 @@ public class SpeakersService {
 			throw new ResourceNotFoundException("Speaker with id " + id + " was not found.");
 		}
 		repository.deleteById(id);
+	}
+	
+	@JmsListener(destination = "${activemq.topics.manufacturers}", containerFactory = "topicListenerFactory")
+	public void deleteSpeakersByManufacturer(@Payload Manufacturer manufacturer,
+            @Headers MessageHeaders headers,
+            Message message,
+            Session session) {
+		List<Speaker> speakers = repository.findByManufacturerReference_Id(manufacturer.getId());
+		repository.deleteAll(speakers);
 	}
 
 }
