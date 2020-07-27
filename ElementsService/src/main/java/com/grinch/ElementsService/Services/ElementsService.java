@@ -1,14 +1,22 @@
 package com.grinch.ElementsService.Services;
 
+import java.util.List;
 import java.util.Optional;
-
+import javax.jms.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
+import com.grinch.ElementsService.BusinessLogic.Manufacturer;
 import com.grinch.ElementsService.BusinessLogic.Entites.Element;
 import com.grinch.ElementsService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.ElementsService.Exceptions.ResourceNotFoundException;
 import com.grinch.ElementsService.Repositories.ElementsRepository;
+
 
 
 @Service
@@ -47,6 +55,15 @@ public class ElementsService {
 		if(!repository.existsById(id)) {
 			throw new ResourceNotFoundException("Element with id " + id + " was not found.");
 		}
+	}
+	
+	@JmsListener(destination = "${activemq.topics.manufacturers}", containerFactory = "topicListenerFactory")
+	public void deleteSpeakersByManufacturer(@Payload Manufacturer manufacturer,
+            @Headers MessageHeaders headers,
+            Message message,
+            Session session) {
+		List<Element> speakers = repository.findByManufacturerReference_Id(manufacturer.getId());
+		repository.deleteAll(speakers);
 	}
 
 }

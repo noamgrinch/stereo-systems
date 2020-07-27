@@ -1,9 +1,16 @@
 package com.grinch.ReceiversService.Services;
 
+import java.util.List;
 import java.util.Optional;
-
+import javax.jms.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import com.grinch.ReceiversService.BusinessLogic.Manufacturer;
 import com.grinch.ReceiversService.BusinessLogic.Entities.Receiver;
 import com.grinch.ReceiversService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.ReceiversService.Exceptions.ResourceNotFoundException;
@@ -46,5 +53,14 @@ public class ReceiversService {
 			throw new ResourceNotFoundException("Receiver with id " + id + " was not found.");
 		}
 		repository.deleteById(id);
+	}
+	
+	@JmsListener(destination = "${activemq.topics.manufacturers}", containerFactory = "topicListenerFactory")
+	public void deleteSpeakersByManufacturer(@Payload Manufacturer manufacturer,
+            @Headers MessageHeaders headers,
+            Message message,
+            Session session) {
+		List<Receiver> speakers = repository.findByManufacturerReference_Id(manufacturer.getId());
+		repository.deleteAll(speakers);
 	}
 }
