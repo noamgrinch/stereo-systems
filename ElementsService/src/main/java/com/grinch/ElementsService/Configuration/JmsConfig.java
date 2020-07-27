@@ -1,10 +1,7 @@
 package com.grinch.ElementsService.Configuration;
 
 import java.util.HashMap;
-
 import javax.jms.ConnectionFactory;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -30,56 +27,32 @@ public class JmsConfig {
 	@Value("${activemq.topics.manufacturers}")
     public String MANUFACTURERS_TOPIC;
 
-
-	 @Value("${activemq.topics.url}")
-	  String brokerUrl;
+	@Bean // Serialize message content to json using TextMessage
+	public MessageConverter jacksonJmsMessageConverter() {
+	      MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+	      converter.setTargetType(MessageType.TEXT);
+	      HashMap<String, Class<?>> typeIdMappings = new HashMap<>();
+	      typeIdMappings.put(Manufacturer.class.getSimpleName(), Manufacturer.class);
+	      converter.setTypeIdMappings(typeIdMappings);
+	      converter.setTypeIdPropertyName("_type");
+	      return converter;
+	}
 	  
-	  @Value("${activemq.topics.user}")
-	  String userName;
-	  
-	  @Value("${activemq.topics.password}")
-	  String password;
-	 
-	  /*
-	   * Initial ConnectionFactory
-	   */
-	    @Bean
-	    public ConnectionFactory connectionFactory(){
-	        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-	        connectionFactory.setBrokerURL(brokerUrl);
-	        connectionFactory.setUserName(userName);
-	        connectionFactory.setPassword(password);
-	        connectionFactory.setTrustAllPackages(true);
-	        return connectionFactory;
-	    }
-	    
-	  @Bean // Serialize message content to json using TextMessage
-	  public MessageConverter jacksonJmsMessageConverter() {
-	        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-	        converter.setTargetType(MessageType.TEXT);
-	        HashMap<String, Class<?>> typeIdMappings = new HashMap<>();
-	        typeIdMappings.put(Manufacturer.class.getSimpleName(), Manufacturer.class);
-	        converter.setTypeIdMappings(typeIdMappings);
-	        converter.setTypeIdPropertyName("_type");
-	        return converter;
-	  }
-	  
-	  @Bean
-	  public JmsListenerContainerFactory<?> topicListenerFactory(ConnectionFactory connectionFactory,
-	                                                  DefaultJmsListenerContainerFactoryConfigurer configurer) {
+	@Bean
+	public JmsListenerContainerFactory<?> topicListenerFactory(ConnectionFactory connectionFactory,DefaultJmsListenerContainerFactoryConfigurer configurer) {
 	      DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 	      factory.setMessageConverter(jacksonJmsMessageConverter());
 	      configurer.configure(factory, connectionFactory);
 	      factory.setPubSubDomain(true);
 	      return factory;
-	  }
+	}
 	  
-	    @Bean
-	    public ObjectMapper objectMapper(){
-	        ObjectMapper mapper = new ObjectMapper();
-	        mapper.registerModule(new JavaTimeModule());
-	        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-	        return mapper;
-	    }
+    @Bean
+	public ObjectMapper objectMapper(){
+	      ObjectMapper mapper = new ObjectMapper();
+	      mapper.registerModule(new JavaTimeModule());
+	      mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	      return mapper;
+	}
 
 }
