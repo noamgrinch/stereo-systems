@@ -43,7 +43,7 @@ public class ReceiversService {
 		}
 		Optional<Receiver> test = repository.findByNameAndManufacturerReference_Id(Receiver.getName(), Receiver.getManufacturerReference().getId());
 		if((!test.isEmpty())&&test.get().getId()!=Receiver.getId()) {
-			throw new ResourceAlreadyExistsException("Receiver with name " + Receiver.getName() + " is already exists for this Receiver.");
+			throw new ResourceAlreadyExistsException("Receiver with name " + Receiver.getName() + " is already exists for this manufacturer.");
 		}
 		return repository.save(Receiver);
 	}

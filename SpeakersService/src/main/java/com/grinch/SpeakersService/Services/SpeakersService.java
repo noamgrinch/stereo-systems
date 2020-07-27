@@ -68,6 +68,7 @@ public class SpeakersService {
             @Headers MessageHeaders headers,
             Message message,
             Session session) {
+		logger.info("Consumed deletion operation for manufacturer: " + manufacturer.toString());
 		List<Speaker> speakers = repository.findByManufacturerReference_Id(manufacturer.getId());
 		repository.deleteAll(speakers);
 	}
