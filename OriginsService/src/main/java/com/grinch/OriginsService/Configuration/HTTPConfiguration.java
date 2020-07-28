@@ -2,14 +2,22 @@ package com.grinch.OriginsService.Configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
+import com.wirefreethought.geodb.client.GeoDbApi;
+import com.wirefreethought.geodb.client.model.GeoDbInstanceType;
+import com.wirefreethought.geodb.client.net.GeoDbApiClient;
 
 @Configuration
 public class HTTPConfiguration {
 	
+	
 	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
+	public GeoDbApiClient getGeoDbApiClient() {
+		return new GeoDbApiClient(GeoDbInstanceType.FREE);
+	}
+	
+	@Bean
+	public GeoDbApi getGeoDbApi(GeoDbApiClient apiClient) {
+		return new GeoDbApi(apiClient);
 	}
 
 }

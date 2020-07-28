@@ -19,7 +19,7 @@ public class OriginsController {
 	private OriginsService service;
 
 	@PostMapping("/origins/validate")
-	public ResponseEntity<Boolean> validateOrigin(@RequestBody Origin origin){
+	public ResponseEntity<Boolean> validateOrigin(@RequestBody Origin origin) throws Exception{
 		return new ResponseEntity<Boolean>(service.validateOrigin(origin),HttpStatus.OK);
 	}
 }
