@@ -15,7 +15,9 @@ import org.mockito.MockitoAnnotations;
 
 import com.grinch.ManufacturersService.BusinessLogic.Entites.Manufacturer;
 import com.grinch.ManufacturersService.Exceptions.ResourceAlreadyExistsException;
+import com.grinch.ManufacturersService.Exceptions.StereoFiException;
 import com.grinch.ManufacturersService.Repositories.ManufacturersRepository;
+import com.grinch.ManufacturersService.Services.ClientOriginsServiceImpl;
 import com.grinch.ManufacturersService.Services.ManufacturersService;
 
 
@@ -28,6 +30,9 @@ public class ManufacturersServiceUnitTest {
  
     @Mock
     private ManufacturersRepository manufacturersRepository;
+    
+    @Mock
+    private ClientOriginsServiceImpl originsService;
  
     @BeforeEach
     public void setUp() throws Exception {
@@ -45,7 +50,7 @@ public class ManufacturersServiceUnitTest {
     }
     
     @Test
-    public void duplicateNameInsertTest() {
+    public void duplicateNameInsertTest() throws StereoFiException {
     	Manufacturer manu = new Manufacturer();
     	manu.setName("Evo");
     	manu.setId((long) 1);
@@ -55,6 +60,7 @@ public class ManufacturersServiceUnitTest {
         Mockito.when(manufacturersRepository.findByName(manu.getName()))
         	.thenReturn(Optional.ofNullable(dup));
         Mockito.when(manufacturersRepository.findById((long) 1)).thenReturn(Optional.ofNullable(manu));
+        Mockito.when(originsService.validate(manu.getOrigin())).thenReturn(true);
         Exception e = assertThrows(ResourceAlreadyExistsException.class,()->{
         	manufacturersService.putManufacturer(manu);
     	});
