@@ -3,15 +3,8 @@ package com.grinch.ManufacturersService.Services;
 import java.util.Optional;
 import javax.jms.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-
-import com.grinch.ManufacturersService.BusinessLogic.Origin;
 import com.grinch.ManufacturersService.BusinessLogic.Entites.Manufacturer;
 import com.grinch.ManufacturersService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.ManufacturersService.Exceptions.ResourceNotFoundException;
@@ -29,9 +22,7 @@ public class ManufacturersService {
 	@Autowired
 	private Topic manuTopic;
 	@Autowired
-	private RestTemplate restTemplate;
-	@Value("${Services.Origins.Uri}")
-	private String ORIGINS_SERVICE;
+	private ClientOriginsServiceImpl ORIGINS_SERVICE;
 	
 	public Manufacturer getManufacturer(Long id) throws Exception {
 		Optional<Manufacturer> manufacturer = repository.findById(id);
@@ -42,7 +33,7 @@ public class ManufacturersService {
 	}
 	
 	public Manufacturer postManufacturer(Manufacturer manufacturer) throws Exception {
-		if(!this.validateOrigin(manufacturer.getOrigin())) {
+		if(!ORIGINS_SERVICE.validate(manufacturer.getOrigin())) {
 			throw new IllegalArgumentException("Origin does not exists.");
 		}
 		if(!repository.findByName(manufacturer.getName()).isEmpty()) {
@@ -53,8 +44,8 @@ public class ManufacturersService {
 	}
 	
 	public Manufacturer putManufacturer(Manufacturer manufacturer) throws Exception {
-		if(!this.validateOrigin(manufacturer.getOrigin())) {
-			throw new IllegalArgumentException("Origin does not exists.");
+		if(!ORIGINS_SERVICE.validate(manufacturer.getOrigin())) {
+			throw new ResourceNotFoundException("Origin does not exists.");
 		}
 		if(repository.findById(manufacturer.getId()).isEmpty()) {
 			throw new ResourceNotFoundException("Manufacturer with id " + manufacturer.getId() + " was not found.");
@@ -75,9 +66,4 @@ public class ManufacturersService {
 		publisher.publishManufacturer(manuTopic, manufacturer.get()); //publish manufacturer in topic to delete related items.
 	}
 	
-	private Boolean validateOrigin(Origin origin) {
-		HttpEntity<Origin> entity = new HttpEntity<>(origin,null);
-		ResponseEntity<Boolean> response = restTemplate.exchange(ORIGINS_SERVICE, HttpMethod.POST, entity, Boolean.class);
-		return response.getBody();
-	}
 }
