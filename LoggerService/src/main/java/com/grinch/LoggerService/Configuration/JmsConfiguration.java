@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Configuration
 public class JmsConfiguration {
 	
@@ -19,6 +21,11 @@ public class JmsConfiguration {
     @Bean
     public Queue queue() {
         return new ActiveMQQueue("LogQueue");
+    }
+    
+    @Bean
+    public ObjectMapper getObjectMapper() {
+    	return new ObjectMapper();
     }
 
     @Bean
