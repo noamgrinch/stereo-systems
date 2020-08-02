@@ -49,5 +49,8 @@ public class Log {
 	@Transient
 	@JsonProperty("loggerName")
 	private String logger;
+	@Transient
+	@JsonProperty("contextMap")
+	private ContextMap contextMap;
 
 }

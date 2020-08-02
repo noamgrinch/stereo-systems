@@ -2,6 +2,9 @@ package com.grinch.ManufacturersService.Services;
 
 import java.util.Optional;
 import javax.jms.Topic;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ import com.grinch.ManufacturersService.Repositories.ManufacturersRepository;
 @Service
 @Transactional
 public class ManufacturersService {
+	private Logger logger = LogManager.getLogger(ManufacturersService.class);
 	@Autowired
 	private ManufacturersRepository repository;
 	@Autowired
@@ -33,6 +37,7 @@ public class ManufacturersService {
 	}
 	
 	public Manufacturer postManufacturer(Manufacturer manufacturer) throws Exception {
+		logger.info("Calling OriginService to validate origin: " + manufacturer.getOrigin());
 		if(!ORIGINS_SERVICE.validate(manufacturer.getOrigin())) {
 			throw new IllegalArgumentException("Origin does not exists.");
 		}
