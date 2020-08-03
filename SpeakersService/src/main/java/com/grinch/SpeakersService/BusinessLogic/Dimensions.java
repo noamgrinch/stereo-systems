@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+
 @Embeddable
 @Data
 public class Dimensions implements java.io.Serializable{
@@ -16,16 +17,16 @@ public class Dimensions implements java.io.Serializable{
 	@NotNull
 	@Max(1000)
 	@Min(1)
-	private Float height;
+	private float height;
 	@JsonProperty("width")
 	@NotNull
 	@Max(1000)
 	@Min(1)
-	private Float width;
+	private float width;
 	@JsonProperty("depth")
 	@NotNull
 	@Max(1000)
 	@Min(1)
-	private Float depth;
+	private float depth;
 
 }
