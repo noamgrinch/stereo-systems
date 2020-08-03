@@ -3,7 +3,7 @@
 <Properties>
     <Property name="springAppName">${bundle:application:spring.application.name}</Property>
     <Property name="sleuthInfo">${springAppName},%X{X-B3-TraceId}</Property>
-    <Property name="SYSTEM_IP_V4">${bundle:application:SYSTEM_IP_V4}</Property>
+    <Property name="ACTIVEMQ_HOST">${bundle:application:ACTIVEMQ_HOST}</Property>
 </Properties>
 
 <Appenders>
@@ -15,7 +15,7 @@
     </Console>
     <JMS name="jmsQueue" destinationBindingName="dynamicQueues/LogQueue"
         factoryName="org.apache.activemq.jndi.ActiveMQInitialContextFactory"
-        factoryBindingName="ConnectionFactory" providerURL="tcp://${SYSTEM_IP_V4}:61616"> 
+        factoryBindingName="ConnectionFactory" providerURL="tcp://${ACTIVEMQ_HOST}:61616"> 
       <JsonLayout properties="true">
 			<KeyValuePair key="application" value="${springAppName}"/>
       </JsonLayout>

@@ -165,6 +165,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+				<toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>13</version>
+      <vendor>oracle</vendor>
+    </provides>
+    <configuration>
+      <jdkHome>JAVAHOME</jdkHome>
+    </configuration>
+  </toolchain>
 					<source>13</source>
 					<target>13</target>
 					<archive>
@@ -176,16 +186,19 @@
 					</archive>
 				</configuration>				
 			</plugin>
+			<plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>local-ip</goal>
+                    </goals>
+                    <phase>initialize</phase>
+                </execution>
+            </executions>
+        </plugin>
 		</plugins>
 	</build>
-<toolchain>
-    <type>jdk</type>
-    <provides>
-      <version>13</version>
-      <vendor>oracle</vendor>
-    </provides>
-    <configuration>
-      <jdkHome>JAVAHOME</jdkHome>
-    </configuration>
-  </toolchain>
+
 </project>
