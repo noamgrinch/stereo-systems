@@ -16,7 +16,7 @@
 	<description>Logging logs to to DB.</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>13</java.version>
 	</properties>
 
 	<dependencies>
@@ -76,8 +76,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>13</source>
+					<target>13</target>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
