@@ -2,14 +2,16 @@ package com.grinch.LoggerService.BusinessLogic.Entities;
 
 import java.sql.Timestamp;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,9 +36,6 @@ public class Log {
 	@Column(name = "Application")
 	@JsonProperty("application")
 	private String application;
-	@Column(name = "TraceID")
-	@JsonProperty("traceId")
-	private String traceId;
 	@Column(name = "LogLevel")
 	@JsonProperty("level")
 	private String logLevel;
@@ -49,8 +48,10 @@ public class Log {
 	@Transient
 	@JsonProperty("loggerName")
 	private String logger;
-	@Transient
-	@JsonProperty("contextMap")
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride( name = "traceId", column = @Column(name = "TraceId"))
+	})
 	private ContextMap contextMap;
 
 }

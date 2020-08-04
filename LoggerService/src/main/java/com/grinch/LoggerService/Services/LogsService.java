@@ -33,11 +33,7 @@ public class LogsService {
 				String[] split = log.getLogger().split(Pattern.quote("."));
 				log.setClassName(split[split.length-1]);
 			}
-			if(log.getContextMap()!=null) {
-				log.setTraceId(log.getContextMap().getTraceId());
-			}
 			this.repository.save(log);
-			System.out.println(payload);
 		}
 		catch(Exception e) {
 			System.out.println("Failed to map message " + payload);

@@ -1,0 +1,22 @@
+version: '2'
+services:
+    logger:
+        container_name: logger
+        build:
+            context: LoggerService
+            dockerfile: Dockerfile
+        image: noamgrinch/loggerservice:latest
+        expose:
+            - 9999
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 9999:9999
+networks:
+  mysql-network:
+    external:
+      name: mysql-network
+  broker-network:
+    external:
+      name: broker-network

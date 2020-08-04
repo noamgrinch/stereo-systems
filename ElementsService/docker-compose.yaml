@@ -1,0 +1,22 @@
+version: '2'
+services:
+    elements:
+        container_name: elements
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: noamgrinch/elementsservice:latest
+        expose:
+            - 8091
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 8091:8091
+networks:
+  mysql-network:
+    external:
+      name: mysql-network
+  broker-network:
+    external:
+      name: broker-network

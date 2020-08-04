@@ -1,0 +1,81 @@
+version: '2'
+services:
+    speakers:
+        container_name: speakers
+        build:
+            context: SpeakersService
+            dockerfile: Dockerfile
+        image: noamgrinch/speakersservice:latest
+        expose:
+            - 8089
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 8089:8089
+    origins:
+        container_name: origins
+        build:
+            context: OriginsService
+            dockerfile: Dockerfile
+        image: noamgrinch/originssservice:latest
+        expose:
+            - 8093
+        networks:
+            - origin-network
+            - broker-network
+        ports:
+            - 8093:8093
+            - 9091:9091
+    manufacturers:
+        container_name: manufacturers
+        build:
+            context: ManufacturersService
+            dockerfile: Dockerfile
+        image: noamgrinch/manufacturersservice:latest
+        expose:
+            - 8090
+        networks:
+            - mysql-network
+            - broker-network
+            - origin-network
+        depends_on:
+            - origins
+        ports:
+            - 8090:8090
+            - 9090:9090
+    elements:
+        container_name: elements
+        build:
+            context: ElementsService
+            dockerfile: Dockerfile
+        image: noamgrinch/elementsservice:latest
+        expose:
+            - 8091
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 8091:8091
+    logger:
+        container_name: logger
+        build:
+            context: LoggerService
+            dockerfile: Dockerfile
+        image: noamgrinch/loggerservice:latest
+        expose:
+            - 9999
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 9999:9999
+networks:
+  mysql-network:
+    external:
+      name: mysql-network
+  broker-network:
+    external:
+      name: broker-network
+  origin-network:
+    driver: bridge

@@ -1,0 +1,27 @@
+version: '2'
+services:
+    manufacturers:
+        container_name: manufacturers
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: noamgrinch/manufacturersservice:latest
+        expose:
+            - 8090
+        networks:
+            - mysql-network
+            - broker-network
+            - origin-network
+        ports:
+            - 8090:8090
+            - 9090:9090
+networks:
+  mysql-network:
+    external:
+      name: mysql-network
+  broker-network:
+    external:
+      name: broker-network
+  origin-network:
+    external:
+      name: origin-network

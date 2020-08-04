@@ -1,0 +1,22 @@
+version: '2'
+services:
+    origins:
+        container_name: origins
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: noamgrinch/originssservice:latest
+        expose:
+            - 8093
+        networks:
+            - origin-network
+            - broker-network
+        ports:
+            - 8093:8093
+            - 9091:9091
+networks:
+  broker-network:
+    external:
+      name: broker-network
+  origin-network:
+    driver: bridge

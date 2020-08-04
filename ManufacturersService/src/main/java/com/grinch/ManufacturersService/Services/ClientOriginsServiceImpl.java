@@ -1,9 +1,12 @@
 package com.grinch.ManufacturersService.Services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Throwables;
 import com.grinch.ManufacturersService.BusinessLogic.Origin;
 import com.grinch.ManufacturersService.Exceptions.StereoFiException;
 import com.grinch.OriginsService.OriginRequest;
@@ -17,7 +20,7 @@ import io.grpc.Status;
 
 @Service
 public class ClientOriginsServiceImpl {
-	
+	private Logger logger = LogManager.getLogger(ClientOriginsServiceImpl.class);
 	@Value("${Host}")
 	private String HOST;
 	@Value("${origins.grpc.server.port}")
@@ -33,15 +36,19 @@ public class ClientOriginsServiceImpl {
         	helloResponse = stub.validate(OriginRequest.newBuilder().setCountry(origin.getCountry())
         			.setCity(origin.getCity())
         			.build());
-        	channel.shutdown();
         }
         catch(io.grpc.StatusRuntimeException e) {
         	if(e.getStatus()==Status.NOT_FOUND) {
+        		logger.warn("Invalid country or city: " + e.getMessage());
         		throw new StereoFiException("Invalid country or city.",HttpStatus.NOT_FOUND);
         	}
         	else {
+        		logger.error(Throwables.getStackTraceAsString(e));
         		throw new StereoFiException("An error occurred when validating origin.",HttpStatus.NOT_FOUND);
         	}
+        }
+        finally {
+        	channel.shutdown();
         }
         return helloResponse.getResult();
     }

@@ -1,0 +1,22 @@
+version: '2'
+services:
+    receivers:
+        container_name: receivers
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: noamgrinch/receiversservice:latest
+        expose:
+            - 8092
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 8092:8092
+networks:
+  mysql-network:
+    external:
+      name: mysql-network
+  broker-network:
+    external:
+      name: broker-network

@@ -1,0 +1,22 @@
+version: '2'
+services:
+    speakers:
+        container_name: speakers
+        build:
+            context: SpeakersService
+            dockerfile: Dockerfile
+        image: noamgrinch/speakersservice:latest
+        expose:
+            - 8089
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 8089:8089
+networks:
+  mysql-network:
+    external:
+      name: mysql-network
+  broker-network:
+    external:
+      name: broker-network
