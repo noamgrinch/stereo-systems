@@ -1,7 +1,10 @@
 package com.grinch.SpeakersService.Controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,24 +24,29 @@ public class SpeakersController {
 	
 	@Autowired
 	private SpeakersService service;
+	private static Logger logger = LogManager.getLogger(SpeakersController.class);
 
 	@GetMapping("/{id}")
-	public Speaker getSpeaker(@PathVariable("id") Long id) throws Exception {
+	public Speaker getSpeaker(@PathVariable("id") Long id, HttpServletRequest  request) throws Exception {
+		logger.info("Received get request from " + request.getRemoteAddr());
 		return service.getSpeaker(id);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deleteSpeaker(@PathVariable("id") Long id) throws Exception {
+	public void deleteSpeaker(@PathVariable("id") Long id, HttpServletRequest  request) throws Exception {
+		logger.info("Received delete request from " + request.getRemoteAddr());
 		service.deleteSpeaker(id);
 	}
 	
 	@PostMapping()
-	public Speaker postSpeaker(@RequestBody @Valid Speaker speaker) throws Exception {
+	public Speaker postSpeaker(@RequestBody @Valid Speaker speaker, HttpServletRequest  request) throws Exception {
+		logger.info("Received post request from " + request.getRemoteAddr());
 		return service.postSpeaker(speaker);
 	}
 	
 	@PutMapping()
-	public Speaker updateSpeaker(@RequestBody @Valid Speaker speaker) throws Exception {
+	public Speaker updateSpeaker(@RequestBody @Valid Speaker speaker, HttpServletRequest  request) throws Exception {
+		logger.info("Received update request from " + request.getRemoteAddr());
 		return service.putSpeaker(speaker);
 	}
 	

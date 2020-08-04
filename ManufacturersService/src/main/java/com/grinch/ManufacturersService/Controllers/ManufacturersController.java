@@ -1,5 +1,6 @@
 package com.grinch.ManufacturersService.Controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
-
 import com.grinch.ManufacturersService.BusinessLogic.Entites.Manufacturer;
 import com.grinch.ManufacturersService.Services.ManufacturersService;
 
@@ -29,23 +28,26 @@ public class ManufacturersController {
 	private ManufacturersService service;
 
 	@GetMapping("/{id}")
-	public Manufacturer getManufacturer(@PathVariable("id") Long id) throws Exception {
+	public Manufacturer getManufacturer(@PathVariable("id") Long id, HttpServletRequest  request) throws Exception {
+		logger.info("Received get request from " + request.getRemoteAddr());
 		return service.getManufacturer(id);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deleteManufacturer(@PathVariable("id") Long id) throws Exception {
+	public void deleteManufacturer(@PathVariable("id") Long id, HttpServletRequest  request) throws Exception {
+		logger.info("Received delete request from " + request.getRemoteAddr());
 		service.deleteManufacturer(id);
 	}
 	
 	@PostMapping()
-	public Manufacturer postManufacturer(@RequestBody @Valid Manufacturer Manufacturer, WebRequest request) throws Exception {
-		logger.info("Received post request from " + request.getLocale().toString());
+	public Manufacturer postManufacturer(@RequestBody @Valid Manufacturer Manufacturer, HttpServletRequest  request) throws Exception {
+		logger.info("Received post request from " + request.getRemoteAddr());
 		return service.postManufacturer(Manufacturer);
 	}
 	
 	@PutMapping()
-	public Manufacturer updateManufacturer(@RequestBody @Valid Manufacturer Manufacturer) throws Exception {
+	public Manufacturer updateManufacturer(@RequestBody @Valid Manufacturer Manufacturer, HttpServletRequest  request) throws Exception {
+		logger.info("Received update request from " + request.getRemoteAddr());
 		return service.putManufacturer(Manufacturer);
 	}
 }
