@@ -8,6 +8,7 @@ import javax.jms.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
@@ -19,6 +20,7 @@ import com.grinch.SpeakersService.BusinessLogic.Manufacturer;
 import com.grinch.SpeakersService.BusinessLogic.Entites.Speaker;
 import com.grinch.SpeakersService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.SpeakersService.Exceptions.ResourceNotFoundException;
+import com.grinch.SpeakersService.Exceptions.StereoFiException;
 import com.grinch.SpeakersService.Repositories.SpeakersRepository;
 
 @Service
@@ -26,6 +28,8 @@ public class SpeakersService {
 	
 	@Autowired
 	private SpeakersRepository repository;
+	@Autowired
+	private GRPCManufacturersService grpcManuService;
 	private static Logger logger = LogManager.getLogger(SpeakersService.class);
 	
 	public Speaker getSpeaker(Long id) throws Exception {
@@ -38,7 +42,9 @@ public class SpeakersService {
 	}
 	
 	public Speaker postSpeaker(Speaker speaker) throws Exception {
-		// Check via ManufacturersService that manufacturer exists!!
+		if(!grpcManuService.validate(speaker.getManufacturerReference().getId())) {
+			throw new StereoFiException("Invalid manufacturer ID.",HttpStatus.BAD_REQUEST);
+		}
 		if(!repository.findByNameAndManufacturerReference_Id(speaker.getName(), speaker.getManufacturerReference().getId()).isEmpty()) {
 			throw new ResourceAlreadyExistsException("Speaker with name " + speaker.getName() + " is already exists for this manufacturer.");
 		}
@@ -46,6 +52,9 @@ public class SpeakersService {
 	}
 	
 	public Speaker putSpeaker(Speaker speaker) throws Exception {
+		if(!grpcManuService.validate(speaker.getManufacturerReference().getId())) {
+			throw new StereoFiException("Invalid manufacturer ID.",HttpStatus.BAD_REQUEST);
+		}
 		if(repository.findById(speaker.getId()).isEmpty()) {
 			throw new ResourceNotFoundException("Speaker with id " + speaker.getId() + " was not found."); // Should create a custom exception and handler.
 		}

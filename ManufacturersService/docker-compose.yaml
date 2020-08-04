@@ -11,7 +11,7 @@ services:
         networks:
             - mysql-network
             - broker-network
-            - origin-network
+            - grpc-network
         ports:
             - 8090:8090
             - 9090:9090
@@ -22,6 +22,6 @@ networks:
   broker-network:
     external:
       name: broker-network
-  origin-network:
+  grpc-network:
     external:
-      name: origin-network
+      name: grpc-network

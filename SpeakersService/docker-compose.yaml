@@ -3,7 +3,7 @@ services:
     speakers:
         container_name: speakers
         build:
-            context: SpeakersService
+            context: .
             dockerfile: Dockerfile
         image: noamgrinch/speakersservice:latest
         expose:
@@ -11,8 +11,10 @@ services:
         networks:
             - mysql-network
             - broker-network
+            - grpc-network
         ports:
             - 8089:8089
+            - 9099:9099
 networks:
   mysql-network:
     external:
@@ -20,3 +22,6 @@ networks:
   broker-network:
     external:
       name: broker-network
+  grpc-network:
+    external:
+      name: grpc-network

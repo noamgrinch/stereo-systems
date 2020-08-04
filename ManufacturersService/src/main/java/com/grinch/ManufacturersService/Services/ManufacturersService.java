@@ -71,4 +71,8 @@ public class ManufacturersService {
 		publisher.publishManufacturer(manuTopic, manufacturer.get()); //publish manufacturer in topic to delete related items.
 	}
 	
+	public Boolean exists(Long id) {
+		return repository.existsById(id);
+	}
+	
 }

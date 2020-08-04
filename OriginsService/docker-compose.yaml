@@ -9,7 +9,7 @@ services:
         expose:
             - 8093
         networks:
-            - origin-network
+            - grpc-network
             - broker-network
         ports:
             - 8093:8093
@@ -18,5 +18,5 @@ networks:
   broker-network:
     external:
       name: broker-network
-  origin-network:
+  grpc-network:
     driver: bridge

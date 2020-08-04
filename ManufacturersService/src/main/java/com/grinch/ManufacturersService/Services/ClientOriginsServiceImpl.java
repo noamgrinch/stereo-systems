@@ -21,13 +21,13 @@ import io.grpc.Status;
 @Service
 public class ClientOriginsServiceImpl {
 	private Logger logger = LogManager.getLogger(ClientOriginsServiceImpl.class);
-	@Value("${Host}")
-	private String HOST;
+	@Value("${origins.grpc.server.host}")
+	private String ORIGINS_GRPC_SERVER_HOST;
 	@Value("${origins.grpc.server.port}")
 	private int ORIGINS_GRPC_SERVER_PORT;
 	
     public boolean validate(Origin origin) throws StereoFiException {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, ORIGINS_GRPC_SERVER_PORT)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(ORIGINS_GRPC_SERVER_HOST, ORIGINS_GRPC_SERVER_PORT)
                 .usePlaintext()
                 .build();
         OriginsServiceBlockingStub stub = OriginsServiceGrpc.newBlockingStub(channel);
