@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.jms.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
@@ -14,6 +15,7 @@ import com.grinch.ReceiversService.BusinessLogic.Manufacturer;
 import com.grinch.ReceiversService.BusinessLogic.Entities.Receiver;
 import com.grinch.ReceiversService.Exceptions.ResourceAlreadyExistsException;
 import com.grinch.ReceiversService.Exceptions.ResourceNotFoundException;
+import com.grinch.ReceiversService.Exceptions.StereoFiException;
 import com.grinch.ReceiversService.Repositories.ReceiversRepository;
 
 
@@ -21,6 +23,8 @@ import com.grinch.ReceiversService.Repositories.ReceiversRepository;
 public class ReceiversService {
 	@Autowired
 	private ReceiversRepository repository;
+	@Autowired
+	private GRPCManufacturersService grpcManuService;
 	
 	public Receiver getReceiver(Long id) throws ResourceNotFoundException {
 		Optional<Receiver> result = repository.findById(id);
@@ -30,14 +34,20 @@ public class ReceiversService {
 		return result.get();
 	}
 	
-	public Receiver postReceiver(Receiver Receiver) throws ResourceAlreadyExistsException {
+	public Receiver postReceiver(Receiver Receiver) throws StereoFiException {
+		if(!grpcManuService.validate(Receiver.getManufacturerReference().getId())) {
+			throw new StereoFiException("Invalid manufacturer ID.",HttpStatus.BAD_REQUEST);
+		}
 		if(!repository.findByNameAndManufacturerReference_Id(Receiver.getName(), Receiver.getManufacturerReference().getId()).isEmpty()) {
 			throw new ResourceAlreadyExistsException("Receiver with name " + Receiver.getName() + " is already exists for this Receiver.");
 		}
 		return repository.save(Receiver);
 	}
 	
-	public Receiver putReceiver(Receiver Receiver) throws ResourceAlreadyExistsException, ResourceNotFoundException {
+	public Receiver putReceiver(Receiver Receiver) throws StereoFiException {
+		if(!grpcManuService.validate(Receiver.getManufacturerReference().getId())) {
+			throw new StereoFiException("Invalid manufacturer ID.",HttpStatus.BAD_REQUEST);
+		}
 		if(repository.findById(Receiver.getId()).isEmpty()) {
 			throw new ResourceNotFoundException("Receiver with id " + Receiver.getId() + " was not found."); // Should create a custom exception and handler.
 		}

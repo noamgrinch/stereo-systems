@@ -59,6 +59,19 @@ services:
             - broker-network
         ports:
             - 8091:8091
+    receivers:
+        container_name: receivers
+        build:
+            context: ReceiversService
+            dockerfile: Dockerfile
+        image: noamgrinch/receiversservice:latest
+        expose:
+            - 8092
+        networks:
+            - mysql-network
+            - broker-network
+        ports:
+            - 8092:8092
     logger:
         container_name: logger
         build:

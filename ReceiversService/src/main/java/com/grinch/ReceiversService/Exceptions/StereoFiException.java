@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import lombok.Data;
 
 @Data
-public class StereoFiException extends Exception{/**
+public class StereoFiException extends Exception implements java.io.Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3900662960873574340L;
@@ -13,6 +13,11 @@ public class StereoFiException extends Exception{/**
 	
 	public StereoFiException(String msg) {
 		super(msg);
+	}
+
+	public StereoFiException(String msg, HttpStatus notFound) {
+		super(msg);
+		this.httpStatusCode=notFound;
 	}
 
 }
