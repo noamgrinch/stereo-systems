@@ -64,7 +64,7 @@ public class OriginsService extends OriginsServiceImplBase{
 		logger.info("Validating origin" + origin.toString());
 		CountryResponse countryResponse = null;
 		PopulatedPlacesResponse cityResponse = null;
-
+		// Calls geoDB services to get data.
 		countryResponse =  geoDbApi.findCountry(FindCountryRequest.builder().countryId(origin.getCountry()).build());
 		if(countryResponse.getErrors()!=null&&countryResponse.getErrors().size()>0) {
 			throw new StereoFiException("There was an error validating the country code: " + countryResponse.getErrors().get(0).getMessage());
