@@ -35,6 +35,7 @@ public class ReceiversService {
 	}
 	
 	public Receiver postReceiver(Receiver Receiver) throws StereoFiException {
+		//Validate manufacturer via ManufacturersService.
 		if(!grpcManuService.validate(Receiver.getManufacturerReference().getId())) {
 			throw new StereoFiException("Invalid manufacturer ID.",HttpStatus.BAD_REQUEST);
 		}
@@ -45,11 +46,12 @@ public class ReceiversService {
 	}
 	
 	public Receiver putReceiver(Receiver Receiver) throws StereoFiException {
+		//Validate manufacturer via ManufacturersService.
 		if(!grpcManuService.validate(Receiver.getManufacturerReference().getId())) {
 			throw new StereoFiException("Invalid manufacturer ID.",HttpStatus.BAD_REQUEST);
 		}
 		if(repository.findById(Receiver.getId()).isEmpty()) {
-			throw new ResourceNotFoundException("Receiver with id " + Receiver.getId() + " was not found."); // Should create a custom exception and handler.
+			throw new ResourceNotFoundException("Receiver with id " + Receiver.getId() + " was not found.");
 		}
 		Optional<Receiver> test = repository.findByNameAndManufacturerReference_Id(Receiver.getName(), Receiver.getManufacturerReference().getId());
 		if((!test.isEmpty())&&test.get().getId()!=Receiver.getId()) {

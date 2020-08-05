@@ -57,6 +57,7 @@ services:
         networks:
             - mysql-network
             - broker-network
+            - grpc-network
         ports:
             - 8091:8091
     receivers:
@@ -70,6 +71,7 @@ services:
         networks:
             - mysql-network
             - broker-network
+            - grpc-network
         ports:
             - 8092:8092
     logger:
